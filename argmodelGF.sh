@@ -41,9 +41,9 @@ Pause
 # OpacityTable=${RezonedModel}
  NewOpacity=$2            # Set this to 1 if a new opacity table must be computed
  RunTTfit=0              # Set this to 1 if the run has not produced *.tt file
-#Composition=uniform     # for opacity, mostly for tests
+ #Composition=uniform     # for opacity, mostly for tests
  Composition=mixed       # for opacity, may be a crude zoning table with @skip of zones
-#Composition=OutUniform  # for opacity, all central zones, outer -- uniform
+ #Composition=OutUniform  # for opacity, all central zones, outer -- uniform
  echo '******'
  echo InputModel Cutmass Nkeep Nmult
  echo $InputModel $Cutmass $Nkeep $Nmult
@@ -525,7 +525,7 @@ Pause				# invoke the function Pause.
           nohup  ./xronfshb.exe >& $HOMEStella/run/vladsf/ronf.log
                ;;
       'mixed')
-          nohup mpirun -np 6 --oversubscribe ./xinsh.exe >& $HOMEStella/run/vladsf/ronf.log
+          nohup srun -n 6 --oversubscribe ./xinsh.exe >& $HOMEStella/run/vladsf/ronf.log
 #           nohup nice +20 mpirun -np 6 ./xinsh.exe >& $HOMEStella/run/vladsf/ronf.log # this does not work in bash
 #           nohup  ./xronfict.exe >& $HOMEStella/run/vladsf/ronf.log
                ;;

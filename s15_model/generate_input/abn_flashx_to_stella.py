@@ -8,11 +8,16 @@ outfile = "s15model.abn"
 ds = yt.load(fname)
 ad = ds.all_data()
 
+rho = np.array(ad[("flash","dens")])
 velx = np.array(ad[("flash","velx")])
+gpot = np.array(ad[("flash","gpot")])
+eint = np.array(ad[("flash","eint")])
 
-idx = np.argwhere(velx > 1.0e3).flatten()
+tener = 0.5 * rho * velx * velx + rho * eint + rho * gpot
+idx = np.argwhere(tener > 0).flatten()
+
 if len(idx) == 0:
-    raise RuntimeError("No zone found with velx > 1.0e3")
+    raise RuntimeError("No zone found with tener > 0.0")
 
 istart = idx[0]
 

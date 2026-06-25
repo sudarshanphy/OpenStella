@@ -17,6 +17,10 @@ dr = np.array(ad[("flash", "dr")])
 rho = np.array(ad[("flash","dens")])
 temp = np.array(ad[("flash","temp")])
 velx = np.array(ad[("flash","velx")])
+gpot = np.array(ad[("flash","gpot")])
+eint = np.array(ad[("flash","eint")])
+
+tener = 0.5 * rho * velx * velx + rho * eint + rho * gpot
 
 rl = r - 0.5 * dr
 rh = r + 0.5 * dr
@@ -25,9 +29,9 @@ cvol = 4.0/3.0 * np.pi * dr * (rl*rl + rl*rh + rh*rh)
 dmass_all = cvol * rho / Msun
 Menc_all = MBH0 + np.cumsum(dmass_all)
 
-idx = np.argwhere(velx > 1.0e3).flatten()
+idx = np.argwhere(tener > 0.0).flatten()
 if len(idx) == 0:
-    raise RuntimeError("No zone found with velx > 1.0e3")
+    raise RuntimeError("No zone found with tener > 0.0")
 
 istart = idx[0]
 

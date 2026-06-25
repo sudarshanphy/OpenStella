@@ -5,7 +5,7 @@
    abs(NSTA)>abs(NSTB)=>reads last   TcurA     TcurB
    -2000     -1                      0.        150.
    NSTMAX  NDebug  NOUT    IOUT (0 -full <0 print zones)   MBATCH
-   36000   100000  900     -10                             900
+   36000   100000  500     -10                             500
    AMNI (CONTAM. MASS)     XMNI (56NI MASS)
    0.d0                    0.d0
    AMHT(Solar)  EBurst(1e50) tBurst(s)  tstart -- Heated Core, Energy & time
