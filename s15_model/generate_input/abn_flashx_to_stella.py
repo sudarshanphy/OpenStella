@@ -8,6 +8,14 @@ outfile = "s15model.abn"
 ds = yt.load(fname)
 ad = ds.all_data()
 
+velx = np.array(ad[("flash","velx")])
+
+idx = np.argwhere(velx > 1.0e3).flatten()
+if len(idx) == 0:
+    raise RuntimeError("No zone found with velx > 1.0e3")
+
+istart = idx[0]
+
 species = []
 with open(species_file, "r") as f:
     for line in f:
@@ -34,24 +42,24 @@ for s in species:
     print(s)
     X[s] = np.array(ad[("flash", s.ljust(4))])
 
-Nzon = len(next(iter(X.values())))
+Nold = len(next(iter(X.values())))
 
-H      = np.zeros(Nzon)
-He     = np.zeros(Nzon)
-C      = np.zeros(Nzon)
-N      = np.zeros(Nzon)
-O      = np.zeros(Nzon)
-Ne     = np.zeros(Nzon)
-Na     = np.zeros(Nzon)
-Mg     = np.zeros(Nzon)
-Al     = np.zeros(Nzon)
-Si     = np.zeros(Nzon)
-S      = np.zeros(Nzon)
-Ar     = np.zeros(Nzon)
-Ca     = np.zeros(Nzon)
-FePeak = np.zeros(Nzon)
-Ni58   = np.zeros(Nzon)
-Ni56   = np.zeros(Nzon)
+H      = np.zeros(Nold)
+He     = np.zeros(Nold)
+C      = np.zeros(Nold)
+N      = np.zeros(Nold)
+O      = np.zeros(Nold)
+Ne     = np.zeros(Nold)
+Na     = np.zeros(Nold)
+Mg     = np.zeros(Nold)
+Al     = np.zeros(Nold)
+Si     = np.zeros(Nold)
+S      = np.zeros(Nold)
+Ar     = np.zeros(Nold)
+Ca     = np.zeros(Nold)
+FePeak = np.zeros(Nold)
+Ni58   = np.zeros(Nold)
+Ni56   = np.zeros(Nold)
 
 used = set()
 
@@ -108,6 +116,25 @@ for s in species:
     if s not in used:
         FePeak += X[s]
 
+H      = H[istart:]
+He     = He[istart:]
+C      = C[istart:]
+N      = N[istart:]
+O      = O[istart:]
+Ne     = Ne[istart:]
+Na     = Na[istart:]
+Mg     = Mg[istart:]
+Al     = Al[istart:]
+Si     = Si[istart:]
+S      = S[istart:]
+Ar     = Ar[istart:]
+Ca     = Ca[istart:]
+FePeak = FePeak[istart:]
+Ni58   = Ni58[istart:]
+Ni56   = Ni56[istart:]
+
+Nzon = len(H)
+
 with open(outfile, "w") as f:
     for i in range(Nzon):
         f.write(
@@ -134,6 +161,8 @@ with open(outfile, "w") as f:
 Xsum = H + He + C + N + O + Ne + Na + Mg + Al + Si + S + Ar + Ca + FePeak + Ni58 + Ni56
 
 print("Wrote", outfile)
-print("Nzon =", Nzon)
+print("istart =", istart)
+print("old Nzon =", Nold)
+print("new Nzon =", Nzon)
 print("Xsum min/max =", Xsum.min(), Xsum.max())
 print("Ni56 sum =", Ni56.sum())
