@@ -3,8 +3,41 @@ import numpy as np
 
 num1 = 1718
 fname = "../chk/failed_1dsph_ug_s15_18274_csm_wenoexp1_hdf5_chk_%04d"%(num1)
-ncombine = 4   # number of zones to combine; use 1 for no combining
-outfile = "s15model_%04d_comb%02d.hyd"%(num1,ncombine)
+
+ncombine = 8   # number of zones to combine; use 1 for no combining
+
+# These are indices AFTER the istart cut.
+# Inclusive ranges: (200, 210) keeps 200,201,...,210 as original FLASH cells.
+preserve_ranges = [(0,16)]
+
+outfile = "s15model_new_%04d_comb%02d.hyd"%(num1,ncombine)
+
+
+def make_blocks(Nold, ncombine, preserve_ranges):
+    preserve = np.zeros(Nold, dtype=bool)
+
+    for a, b in preserve_ranges:
+        a = max(a, 0)
+        b = min(b, Nold - 1)
+        if b >= a:
+            preserve[a:b+1] = True
+
+    blocks = []
+    i = 0
+
+    while i < Nold:
+        if preserve[i]:
+            blocks.append((i, i+1))
+            i += 1
+        else:
+            j = i
+            while j < Nold and (not preserve[j]) and (j - i) < ncombine:
+                j += 1
+
+            blocks.append((i, j))
+            i = j
+
+    return blocks
 
 
 ds = yt.load(fname)
@@ -64,9 +97,9 @@ rho_new = []
 temp_new = []
 velx_new = []
 
-for i in range(0, Nold, ncombine):
-    j = min(i + ncombine, Nold)
+blocks = make_blocks(Nold, ncombine, preserve_ranges)
 
+for i, j in blocks:
     vol_sum = np.sum(cvol[i:j])
     mass_sum_g = np.sum(mass_g[i:j])
     mass_sum_msun = np.sum(dmass[i:j])
@@ -109,6 +142,7 @@ with open(outfile, "w") as f:
 
 print("Wrote", outfile)
 print("ncombine =", ncombine)
+print("preserve_ranges =", preserve_ranges)
 print("istart =", istart)
 print("old kept Nzon =", Nold)
 print("new Nzon =", Nzon)
@@ -121,3 +155,7 @@ print("Rout =", rh[-1])
 print("rhoCen =", rhoCen)
 print("v first =", velx[0])
 print("v min/max kept =", velx.min(), velx.max())
+
+print("first 20 blocks:")
+for b in blocks[:20]:
+    print(b, "size", b[1]-b[0])

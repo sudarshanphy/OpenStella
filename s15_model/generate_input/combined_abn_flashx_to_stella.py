@@ -4,8 +4,41 @@ import numpy as np
 num1 = 1718
 fname = "../chk/failed_1dsph_ug_s15_18274_csm_wenoexp1_hdf5_chk_%04d"%(num1)
 species_file = "SpeciesList.txt"
-ncombine = 4   # must match hyd_flashx_to_stella.py
-outfile = "s15model_%04d_comb%02d.abn"%(num1, ncombine)
+ncombine = 8   # must match hyd_flashx_to_stella.py
+
+# These are indices AFTER the istart cut.
+# Inclusive ranges
+# Must match the .hyd script.
+preserve_ranges = [(0,16)]
+
+outfile = "s15model_new_%04d_comb%02d.abn"%(num1, ncombine)
+
+
+def make_blocks(Nold, ncombine, preserve_ranges):
+    preserve = np.zeros(Nold, dtype=bool)
+
+    for a, b in preserve_ranges:
+        a = max(a, 0)
+        b = min(b, Nold - 1)
+        if b >= a:
+            preserve[a:b+1] = True
+
+    blocks = []
+    i = 0
+
+    while i < Nold:
+        if preserve[i]:
+            blocks.append((i, i+1))
+            i += 1
+        else:
+            j = i
+            while j < Nold and (not preserve[j]) and (j - i) < ncombine:
+                j += 1
+
+            blocks.append((i, j))
+            i = j
+
+    return blocks
 
 
 ds = yt.load(fname)
@@ -156,8 +189,9 @@ groups_new = [[] for _ in groups]
 
 Nold = len(H)
 
-for i in range(0, Nold, ncombine):
-    j = min(i + ncombine, Nold)
+blocks = make_blocks(Nold, ncombine, preserve_ranges)
+
+for i, j in blocks:
     msum = np.sum(mass_g[i:j])
 
     for k, G in enumerate(groups):
@@ -196,9 +230,14 @@ Xsum = H + He + C + N + O + Ne + Na + Mg + Al + Si + S + Ar + Ca + FePeak + Ni58
 
 print("Wrote", outfile)
 print("ncombine =", ncombine)
+print("preserve_ranges =", preserve_ranges)
 print("istart =", istart)
 print("old full Nzon =", Nold_all)
 print("old kept Nzon =", Nold)
 print("new Nzon =", Nzon)
 print("Xsum min/max =", Xsum.min(), Xsum.max())
 print("Ni56 sum =", Ni56.sum())
+
+print("first 20 blocks:")
+for b in blocks[:20]:
+    print(b, "size", b[1]-b[0])
