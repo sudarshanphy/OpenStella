@@ -1,9 +1,9 @@
 import yt
 import numpy as np
 
-num1 = 958
+num1 = 1718
 fname = "../chk/failed_1dsph_ug_s15_18274_csm_wenoexp1_hdf5_chk_%04d"%(num1)
-ncombine = 16   # number of zones to combine; use 1 for no combining
+ncombine = 4   # number of zones to combine; use 1 for no combining
 outfile = "s15model_%04d_comb%02d.hyd"%(num1,ncombine)
 
 

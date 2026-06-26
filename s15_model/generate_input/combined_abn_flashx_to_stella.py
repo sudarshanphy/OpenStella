@@ -1,10 +1,10 @@
 import yt
 import numpy as np
 
-num1 = 958
+num1 = 1718
 fname = "../chk/failed_1dsph_ug_s15_18274_csm_wenoexp1_hdf5_chk_%04d"%(num1)
 species_file = "SpeciesList.txt"
-ncombine = 16   # must match hyd_flashx_to_stella.py
+ncombine = 4   # must match hyd_flashx_to_stella.py
 outfile = "s15model_%04d_comb%02d.abn"%(num1, ncombine)
 
 
