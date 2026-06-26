@@ -1,8 +1,9 @@
 import yt
 import numpy as np
 
-fname = "../chk/failed_1dsph_ug_s15_18274_csm_wenoexp1_hdf5_chk_0958"
-outfile = "s15model.hyd"
+num1 = 1718
+fname = "../chk/failed_1dsph_ug_s15_18274_csm_wenoexp1_hdf5_chk_%04d"%(num1)
+outfile = "s15model_%04d.hyd"%(num1)
 
 ds = yt.load(fname)
 ad = ds.all_data()

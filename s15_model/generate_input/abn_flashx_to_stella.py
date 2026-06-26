@@ -1,9 +1,10 @@
 import yt
 import numpy as np
 
-fname = "../chk/failed_1dsph_ug_s15_18274_csm_wenoexp1_hdf5_chk_0958"
+num1 = 1718
+fname = "../chk/failed_1dsph_ug_s15_18274_csm_wenoexp1_hdf5_chk_%04d"%(num1)
 species_file = "SpeciesList.txt"
-outfile = "s15model.abn"
+outfile = "s15model_%04d.abn"%(num1)
 
 ds = yt.load(fname)
 ad = ds.all_data()
