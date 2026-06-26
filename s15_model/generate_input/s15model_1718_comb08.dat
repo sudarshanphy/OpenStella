@@ -3,7 +3,7 @@
    METH  ADAMS(1)-GEAR(2)   JSTART  (0-START_ELSE_ORDER) MAXORD KNadap
     2                        0                            4        -4
    abs(NSTA)>abs(NSTB)=>reads last   TcurA     TcurB
-   -2000     -1                      0.        600.
+   -2000     -1                      0.        500.
    NSTMAX  NDebug  NOUT    IOUT (0 -full <0 print zones)   MBATCH
    36000   100000  10000     -10                             10000
    AMNI (CONTAM. MASS)     XMNI (56NI MASS)
@@ -54,7 +54,7 @@
    140.d0 
    150.d0
    200.d0
+   250.d0
    300.d0
    400.d0
    500.d0
-   600.d0
