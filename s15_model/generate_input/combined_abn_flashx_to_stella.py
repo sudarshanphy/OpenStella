@@ -4,14 +4,14 @@ import numpy as np
 num1 = 1718
 fname = "../chk/failed_1dsph_ug_s15_18274_csm_wenoexp1_hdf5_chk_%04d"%(num1)
 species_file = "SpeciesList.txt"
-ncombine = 8   # must match hyd_flashx_to_stella.py
+ncombine = 2   # must match hyd_flashx_to_stella.py
 
 # These are indices AFTER the istart cut.
 # Inclusive ranges
 # Must match the .hyd script.
-preserve_ranges = [(0,16)]
+preserve_ranges = [(0,32)]
 
-outfile = "s15model_new_%04d_comb%02d.abn"%(num1, ncombine)
+outfile = "s15model_new2_%04d_comb%02d.abn"%(num1, ncombine)
 
 
 def make_blocks(Nold, ncombine, preserve_ranges):

@@ -4,13 +4,13 @@ import numpy as np
 num1 = 1718
 fname = "../chk/failed_1dsph_ug_s15_18274_csm_wenoexp1_hdf5_chk_%04d"%(num1)
 
-ncombine = 8   # number of zones to combine; use 1 for no combining
+ncombine = 2   # number of zones to combine; use 1 for no combining
 
 # These are indices AFTER the istart cut.
 # Inclusive ranges: (200, 210) keeps 200,201,...,210 as original FLASH cells.
-preserve_ranges = [(0,16)]
+preserve_ranges = [(0,32)]
 
-outfile = "s15model_new_%04d_comb%02d.hyd"%(num1,ncombine)
+outfile = "s15model_new2_%04d_comb%02d.hyd"%(num1,ncombine)
 
 
 def make_blocks(Nold, ncombine, preserve_ranges):
