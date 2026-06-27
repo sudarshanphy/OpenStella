@@ -619,7 +619,8 @@ fi
  then
      rm $HOMEStella/run/strad/st.log
  fi
-
- nohup ./xstella6y12m.exe >& st.log &
- echo Stella is started, watch
- echo tail -f $HOMEStella/run/strad/st.log
+ 
+ echo Use runCode.sh to run Stella!
+ #nohup ./xstella6y12m.exe >& st.log &
+ #echo Stella is started, watch
+ #echo tail -f $HOMEStella/run/strad/st.log

@@ -1,5 +1,5 @@
    EPS   (STIFF ACCURACY)   HMIN (MIN.STEP(SEC)) HMAX (MAX.STEP(SEC))
-   0.0001                   1.D-14               5.D+4
+   0.003                    1.D-14               5.D+4
    METH  ADAMS(1)-GEAR(2)   JSTART  (0-START_ELSE_ORDER) MAXORD KNadap
     2                        0                            4        -4
    abs(NSTA)>abs(NSTB)=>reads last   TcurA     TcurB
