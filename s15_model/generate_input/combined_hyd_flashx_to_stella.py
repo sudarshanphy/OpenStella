@@ -8,9 +8,9 @@ ncombine = 2   # number of zones to combine; use 1 for no combining
 
 # These are indices AFTER the istart cut.
 # Inclusive ranges: (200, 210) keeps 200,201,...,210 as original FLASH cells.
-preserve_ranges = [(0,32)]
+preserve_ranges = [(0,56)]
 
-outfile = "s15model_new2_%04d_comb%02d.hyd"%(num1,ncombine)
+outfile = "s15model_new3_%04d_comb%02d.hyd"%(num1,ncombine)
 
 
 def make_blocks(Nold, ncombine, preserve_ranges):
@@ -66,7 +66,9 @@ dmass_all = cvol * rho / Msun
 mass_g_all = cvol * rho
 Menc_all = MBH0 + np.cumsum(dmass_all)
 
-idx = np.argwhere(tener > 0.0).flatten()
+#idx = np.argwhere(tener > 0.0).flatten()
+idx = np.argwhere(velx > 1.0e6).flatten()
+
 if len(idx) == 0:
     raise RuntimeError("No zone found with tener > 0.0")
 

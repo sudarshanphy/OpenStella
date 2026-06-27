@@ -9,9 +9,9 @@ ncombine = 2   # must match hyd_flashx_to_stella.py
 # These are indices AFTER the istart cut.
 # Inclusive ranges
 # Must match the .hyd script.
-preserve_ranges = [(0,32)]
+preserve_ranges = [(0,56)]
 
-outfile = "s15model_new2_%04d_comb%02d.abn"%(num1, ncombine)
+outfile = "s15model_new3_%04d_comb%02d.abn"%(num1, ncombine)
 
 
 def make_blocks(Nold, ncombine, preserve_ranges):
@@ -58,7 +58,8 @@ cvol = 4.0/3.0 * np.pi * dr * (rl*rl + rl*rh + rh*rh)
 mass_g = cvol * rho
 
 tener = 0.5 * rho * velx * velx + rho * eint + rho * gpot
-idx = np.argwhere(tener > 0.0).flatten()
+#idx = np.argwhere(tener > 0.0).flatten()
+idx = np.argwhere(velx > 1.0e6).flatten()
 
 if len(idx) == 0:
     raise RuntimeError("No zone found with tener > 0.0")
